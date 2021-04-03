@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\DisbursementController as Api;
+use App\Http\Controllers\DisbursementController ;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [DisbursementController::class, 'index'])->name('disbursement');
+
+Route::group(['prefix' => 'v1'], function() {
+    Route::post('/disburse', [Api::class, 'store'])->name('disbursement.store');
+
+    Route::get('/disburse/{id}', [Api::class, 'show'])->name('disbursement.get');
 });
